@@ -35,7 +35,12 @@ character_speed = 0.6
 running = True # 게임이 진행중인가?
 while running:
     dt = clock.tick(10) # 게임화면의 초당 프레임 수를 설정
-    
+
+    print("fps : " + str(clock.get_fps()))
+# 캐릭터가 1초동안 100만큼 이동을 해야함.
+# 10fps : 1초동안 10번동작 -> 1번에 몇만큼 이동? 10만큼...10 * 10 = 100
+# 20fps : 1초동안 20번동작 -> 1번에 5만큼이동... 20 * 5 = 100 
+
     for event in pygame.event.get(): # 어떤 이벤트가 발생하였는가?
         if event.type == pygame.QUIT: # 창이 닫히는 이벤트가 발생하였는가?
             running = False # 게임이 진행중이 아님

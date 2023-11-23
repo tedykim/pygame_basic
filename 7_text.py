@@ -8,7 +8,7 @@ screen_height = 640 # 세로 크기
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 화면 타이틀 설정
-pygame.display.set_caption("팡팡 Game") # 게임 이름
+pygame.display.set_caption("팡팡 Game") #  이름
 
 # FPS
 clock = pygame.time.Clock()
@@ -50,13 +50,13 @@ total_time = 10
 start_ticks = pygame.time.get_ticks() # 현재 tick 을 받아옴
 
 # 이벤트 루프
-running = True # 게임이 진행중인가?
+running = True # 진행중인가?
 while running:
-    dt = clock.tick(60) # 게임화면의 초당 프레임 수를 설정
-    
+    dt = clock.tick(60) # 화면의 초당 프레임 수를 설정
+    print("fps : " + str(clock.get_fps()))
     for event in pygame.event.get(): # 어떤 이벤트가 발생하였는가?
         if event.type == pygame.QUIT: # 창이 닫히는 이벤트가 발생하였는가?
-            running = False # 게임이 진행중이 아님
+            running = False # 진행중이 아님
 
         if event.type == pygame.KEYDOWN: # 키가 눌러졌는지 확인
             if event.key == pygame.K_LEFT: # 캐릭터를 왼쪽으로
@@ -107,21 +107,21 @@ while running:
     screen.blit(character, (character_x_pos, character_y_pos)) # 캐릭터 그리기
     screen.blit(enemy, (enemy_x_pos, enemy_y_pos)) # 적 그리기
 
-    # 타이머 집어 넣기
-    # 경과 시간 계산
-    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
-    # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
+    # # 타이머 집어 넣기
+    # # 경과 시간 계산
+    # elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
+    # # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
 
-    timer = game_font.render(str(int(total_time - elapsed_time)), True, (255, 255, 255))
-    # 출력할 글자, True, 글자 색상
-    screen.blit(timer, (10, 10))
+    # timer = game_font.render(str(int(total_time - elapsed_time)), True, (255, 255, 255))
+    # # 출력할 글자, True, 글자 색상
+    # screen.blit(timer, (10, 10))
 
-    # 만약 시간이 0 이하이면 게임 종료
-    if total_time - elapsed_time <= 0:
-        print("타임아웃")
-        running = False
+    # # 만약 시간이 0 이하이면  종료
+    # if total_time - elapsed_time <= 0:
+    #     print("타임아웃")
+    #     running = False
 
-    pygame.display.update() # 게임화면을 다시 그리기!
+    pygame.display.update() # 화면을 다시 그리기!
 
 # 잠시 대기
 pygame.time.delay(2000) # 2초 정도 대기 (ms)

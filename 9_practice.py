@@ -9,7 +9,7 @@ screen_height = 640 # 세로 크기
 screen = pygame.display.set_mode((screen_width, screen_height))
 
 # 2.제목 설정
-pygame.display.set_caption("팡팡 Game") # 게임 이름
+pygame.display.set_caption("팡팡 Game") # 이름
 
 # 3. 클럭,fps
 clock = pygame.time.Clock()
@@ -45,13 +45,17 @@ total_time = 10
 start_ticks = pygame.time.get_ticks() # 현재 tick 을 받아옴
 
 # 8. 이벤트 루프
-running = True # 8.1 게임이 진행중인가?
+running = True # 8.1  진행중인가?
 while running:
-    dt = clock.tick(60) # 게임화면의 초당 프레임 수를 설정
+    dt = clock.tick(60) # 화면의 초당 프레임 수를 설정
+    print("fps : " + str(clock.get_fps()))
+# 캐릭터가 1초동안 100만큼 이동을 해야함.
+# 10fps : 1초동안 10번동작 -> 1번에 몇만큼 이동? 10만큼...10 * 10 = 100
+# 20fps : 1초동안 20번동작 -> 1번에 5만큼이동... 20 * 5 = 100 
     
     for event in pygame.event.get(): # 8.2 어떤 이벤트가 발생하였는가?
         if event.type == pygame.QUIT: # 8.3 창이 닫히는 이벤트가 발생하였는가?
-            running = False # 게임이 진행중이 아님
+            running = False # 진행중이 아님
 
         if event.type == pygame.KEYDOWN: # 8.4 키가 눌러졌는지 확인
             if event.key == pygame.K_LEFT: # 캐릭터를 왼쪽으로
@@ -64,19 +68,19 @@ while running:
     character_x_pos += to_x * dt   # 8.6 캐릭터 이동 속도유지(fps무관하게 동일속도) 
     character_y_pos += to_y * dt
 
-    # 가로 경계값 처리
+    # 9.1 가로 경계값 처리
     if character_x_pos < 0:
         character_x_pos = 0
     elif character_x_pos > screen_width - character_width:
         character_x_pos = screen_width - character_width
 
-    # 세로 경계값 처리
+    # 9.2 세로 경계값 처리
     if character_y_pos < 0:
         character_y_pos = 0
     elif character_y_pos > screen_height - character_height:
         character_y_pos = screen_height - character_height
 
-    # 충돌 처리를 위한 rect 정보 업데이트
+    # 10.1 충돌 처리를 위한 rect 정보 업데이트
     character_rect = character.get_rect()
     character_rect.left = character_x_pos
     character_rect.top = character_y_pos
@@ -85,7 +89,7 @@ while running:
     enemy_rect.left = enemy_x_pos
     enemy_rect.top = enemy_y_pos
 
-    # 충돌 체크
+    # 10.2 충돌 체크
     if character_rect.colliderect(enemy_rect):
         print("충돌했어요")
         running = False
@@ -94,21 +98,21 @@ while running:
     screen.blit(character, (character_x_pos, character_y_pos)) # 캐릭터 그리기
     screen.blit(enemy, (enemy_x_pos, enemy_y_pos)) # 적 그리기
 
-    # 타이머 집어 넣기
-    # 경과 시간 계산
-    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
-    # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
+    # # 타이머 집어 넣기
+    # # 경과 시간 계산
+    # elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000
+    # # 경과 시간(ms)을 1000으로 나누어서 초(s) 단위로 표시
 
-    timer = game_font.render(str(int(total_time - elapsed_time)), True, (255, 255, 255))
-    # 출력할 글자, True, 글자 색상
-    screen.blit(timer, (10, 10))
+    # timer = game_font.render(str(int(total_time - elapsed_time)), True, (255, 255, 255))
+    # # 출력할 글자, True, 글자 색상
+    # screen.blit(timer, (10, 10))
 
-    # 만약 시간이 0 이하이면 게임 종료
-    if total_time - elapsed_time <= 0:
-        print("타임아웃")
-        running = False
+    # # 만약 시간이 0 이하이면 종료
+    # if total_time - elapsed_time <= 0:
+    #     print("타임아웃")
+    #     running = False
 
-    pygame.display.update() # 게임화면을 다시 그리기!
+    pygame.display.update() # 화면을 다시 그리기!
 
 # 잠시 대기
 pygame.time.delay(2000) # 2초 정도 대기 (ms)
