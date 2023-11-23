@@ -1,4 +1,3 @@
-#########################################################
 import pygame
 
 pygame.init() # 초기화 (반드시 필요)
@@ -20,6 +19,10 @@ background = pygame.image.load("C:\mac_dev_C\pygame_basic/background.png")
 # 5. 스프라이트_character 불러오기
 character = pygame.image.load("C:\mac_dev_C\pygame_basic/character.png")
 character_size = character.get_rect().size # 이미지의 크기를 구해옴
+character_width = character_size[0] # 캐릭터의 가로 크기
+character_height = character_size[1] # 캐릭터의 세로 크기
+character_x_pos = (screen_width / 2) - (character_width / 2) # 화면 가로의 절반 크기에 해당하는 곳에 위치 (가로)
+character_y_pos = screen_height - character_height # 화면 세로 크기 가장 아래에 해당하는 곳에 위치 (세로)
 
 # 5.1 이동할 좌표
 to_x = 0
@@ -39,8 +42,10 @@ enemy_y_pos = (screen_height / 2) - (enemy_height / 2) # 화면 세로 크기 �
 
 # 6. 폰트 정의
 game_font = pygame.font.Font(None, 40) # 폰트 객체 생성 (폰트, 크기)
+
 # 7. 총 시간
 total_time = 10
+
 # 7.1 시작 시간
 start_ticks = pygame.time.get_ticks() # 현재 tick 을 받아옴
 
@@ -60,10 +65,18 @@ while running:
         if event.type == pygame.KEYDOWN: # 8.4 키가 눌러졌는지 확인
             if event.key == pygame.K_LEFT: # 캐릭터를 왼쪽으로
                 to_x -= character_speed # to_x = to_x - 5(5가아니라 0.6 일꺼야)
+            elif event.key == pygame.K_RIGHT: # 캐릭터를 오른쪽으로
+                to_x += character_speed
+            elif event.key == pygame.K_UP: # 캐릭터를 위로
+                to_y -= character_speed
+            elif event.key == pygame.K_DOWN: # 캐릭터를 아래로
+                to_y += character_speed
 
         if event.type == pygame.KEYUP: # 8.5 방향키를 떼면 멈춤
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 to_x = 0
+            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                to_y = 0                
 
     character_x_pos += to_x * dt   # 8.6 캐릭터 이동 속도유지(fps무관하게 동일속도) 
     character_y_pos += to_y * dt
